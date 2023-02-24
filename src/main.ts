@@ -27,7 +27,7 @@ export async function main(siteIDToUpdate: string, outagesSinceDateTime: DateTim
 
         // Post to site-outages
         const postOutagesResponse = await postSiteOutages(siteIDToUpdate, enrichedNorwichPearTreeDeviceOutages);
-        console.log('postOutagesResponse', postOutagesResponse);
+        console.log(postOutagesResponse ? 'Success!' : 'Failure');
         return postOutagesResponse;
     } else {
         error(`SiteInfo for ${siteIDToUpdate} could not be found`)

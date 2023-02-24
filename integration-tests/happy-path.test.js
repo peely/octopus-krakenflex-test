@@ -2,16 +2,16 @@ jest.mock('axios');
 import axios from 'axios';
 
 describe('Integration Tets', () => {
+
+    const axiosRequestMock = jest.fn();
+    axios.create.mockReturnValue({
+        request: axiosRequestMock
+    });
+
     describe('Calls outages, calls site info, filters, enriches, and posts results', () => {
 
-        const axiosRequestMock = jest.fn();
         beforeAll(async () => {
             // setup mocks
-
-            axios.create.mockReturnValue({
-                request: axiosRequestMock
-            });
-
             axiosRequestMock.mockResolvedValueOnce({
                 status: 200,
                 data: [
@@ -65,6 +65,10 @@ describe('Integration Tets', () => {
 
             require('../src/index.ts')
         });
+
+        afterAll(() => {
+            axiosRequestMock.mockReset()
+        })
 
         test('The last call to axios has the correct data', () => {
             expect(axiosRequestMock.mock.calls[2]).toEqual([{

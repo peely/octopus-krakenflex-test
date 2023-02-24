@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest ./src",
-    "test:int": "KRAKEN_FLEX_KEY=test-key KRAKEN_FLEX_API_BASE_URL=http://localhost:3000 OUTAGE_CUTTOFF_DATE=2022-01-01T00:00:00.000Z SITEID_TO_CHECK=NORWICH_PEAR_TREE jest ./integration-tests"
+    "start": "npx ts-node ./src/index",
+    "start:mock": "concurrently  \"npm run dyson-mocks\" \"npm run start:mock\"",
+    "dyson-mocks": "dyson ./kraken-flex-stubs",
+    "run:mock": "KRAKEN_FLEX_KEY=mock-key KRAKEN_FLEX_API_BASE_URL=http://localhost:3000 OUTAGE_CUTTOFF_DATE=2022-01-01T00:00:00.000Z SITEID_TO_CHECK=NORWICH_PEAR_TREE npx ts-node ./src/index",
+    "test": "jest ./src --verbose",
+    "test:int": "KRAKEN_FLEX_KEY=test-key KRAKEN_FLEX_API_BASE_URL=http://localhost:3000 OUTAGE_CUTTOFF_DATE=2022-01-01T00:00:00.000Z SITEID_TO_CHECK=NORWICH_PEAR_TREE jest ./integration-tests --verbose"   
   },
   "repository": {
     "type": "git",
@@ -35,6 +39,7 @@
     "@types/luxon": "^3.2.0",
     "@types/node": "^18.11.18",
     "babel-jest": "^29.4.3",
+    "concurrently": "^7.6.0",
     "ts-jest": "^29.0.5"
   }
 }
